@@ -4,7 +4,30 @@ notify
 
 Synopsis
 --------
-A super simple notification system.
+A super simple no configuration notification system.
+
+Usage
+-----
+The plugin will append to a div with the id "messages". This container div
+isn't created for you automatically, so add before starting to generate any
+notifications.
+
+...
+<div id="#messages"></div>
+...
+
+Notification messages can be generated like shown below. The messages will
+disappear after a timeout of 2100ms. In case the message is a bit more longer
+the timeout is doubled to give time comprehending the message.
+
+...
+$.notify("Hello!");
+$.notify("Hello!", "success"); // With optional level.
+...
+
+Levels are applied as classes to the message. This can be used to mark a
+message as success, error, etc and styled accordingly.
+
 
 Copyright & License
 -------------------
@@ -14,4 +37,4 @@ For the full license text see the LICENSE file.
 
 Versions & Requirements
 -----------------------
-The plugin is known to work with jQuery 1.5.2.
+The plugin is known to work pretty well with jQuery 1.5.2.
