@@ -13,7 +13,7 @@ isn't created for you automatically, so add before starting to generate any
 notifications.
 
 ...
-<div id="#messages"></div>
+<div id="messages"></div>
 ...
 
 Notification messages can be generated like shown below. The messages will
