@@ -1,0 +1,17 @@
+
+notify
+-- A jQuery Notification Plugin
+
+Synopsis
+--------
+A super simple notification system.
+
+Copyright & License
+-------------------
+Notify, is Copyright (c) 2009-2012 David Persson if not otherwise
+stated. The code is distributed under the terms of the MIT License.
+For the full license text see the LICENSE file.
+
+Versions & Requirements
+-----------------------
+The plugin is known to work with jQuery 1.5.2.
