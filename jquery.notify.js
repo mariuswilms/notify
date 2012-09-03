@@ -33,7 +33,7 @@
         $(this).remove();
         complete(); /* Show next message in queue. */
       });
-    }, timeout); /* ms */
+    }, timeout);
   };
 
   $.notify = function(text, level) {
