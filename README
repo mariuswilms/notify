@@ -6,19 +6,26 @@ Synopsis
 --------
 A super simple no configuration notification system.
 
+Features
+--------
+- No configuration required
+- Message-queuing
+- Message-flooding prevention
+- "Smart" timeout
+
 Usage
 -----
-The plugin will append to a div with the id "messages". This container div
-isn't created for you automatically, so add before starting to generate any
-notifications.
+As the first and only preparation step you'll have to add a container div to
+your document. Once the container is in place the plugin will start appending
+a message each time you generate call $.notify().
 
 ...
 <div id="messages"></div>
 ...
 
-Notification messages can be generated like shown below. The messages will
-disappear after a timeout of 2100ms. In case the message is a bit more longer
-the timeout is doubled to give time comprehending the message.
+Messages are generated like shown below. Each message automatically disappears
+after 2100ms. For messages containing longer text the timeout is doubled to
+give time for comprehension.
 
 ...
 $.notify("Hello!");
@@ -28,6 +35,20 @@ $.notify("Hello!", "success"); // With optional level.
 Levels are applied as classes to the message. This can be used to mark a
 message as success, error, etc and styled accordingly.
 
+The complete markup with an active message may look like in the example below.
+
+...
+<div id="messages">
+	<div class="message success">Hello!</div>
+</div>
+...
+
+Queuing
+-------
+Currently just one message at a time is being shown. Only 2 messages are
+actually queued to prevent flooding the notification system. This may lead to
+messages being discarded - which is bad. On the other hand it's freeing you
+from implementing your own buffering mechanisms - which is good.
 
 Copyright & License
 -------------------
@@ -35,6 +56,6 @@ Notify, is Copyright (c) 2009-2012 David Persson if not otherwise
 stated. The code is distributed under the terms of the MIT License.
 For the full license text see the LICENSE file.
 
-Versions & Requirements
------------------------
-The plugin is known to work pretty well with jQuery 1.5.2.
+Requirements
+------------
+The plugin is known to work well in combination with jQuery 1.5.2.
