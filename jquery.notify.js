@@ -24,7 +24,7 @@
 
     var timeout = 2100;
     if (text.length >= 25) {
-      /* If complex message double the timeout. */
+      /* Double the timeout for complex messages, giving comprehension time. */
       timeout = timeout * 2;
     }
 
@@ -42,8 +42,8 @@
     if (queue.queue().length >= 2) {
       return;
     }
-    /* Currently only one message at the time. Otherwise we'd need
-       more complex management. */
+    /* Currently only one message at the time. Allowing showing multiple
+      message here will might need a more sophisticated method of managment. */
     queue.queue(function(next) {
       render(text, level, next);
     });
