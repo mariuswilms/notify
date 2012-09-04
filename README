@@ -17,7 +17,7 @@ Usage
 -----
 As the first and only preparation step you'll have to add a container div to
 your document. Once the container is in place the plugin will start appending
-a message each time you generate call $.notify().
+a message each time you call notify.
 
 ...
 <div id="messages"></div>
