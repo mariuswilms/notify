@@ -25,11 +25,14 @@ a message each time you call notify.
 
 Messages are generated like shown below. Each message automatically disappears
 after 2100ms. For messages containing longer text the timeout is doubled to
-give time for comprehension.
+give time for comprehension. You can also make a message "sticky" by providing
+a 3rd parameter. A sticky message has the "sticky" class added and stays until
+you click on it.
 
 ...
 $.notify("Hello!");
 $.notify("Hello!", "success"); // With optional level.
+$.notify("Hello!", "success", true); // Makes the message sticky.
 ...
 
 Levels are applied as classes to the message. This can be used to mark a
