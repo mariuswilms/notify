@@ -37,26 +37,27 @@
 
     var timeout = 2100;
     if ($(html).text().length >= 25) {
-      /* Double the timeout for complex messages, giving comprehension time. */
+      // Double the timeout for complex messages,
+      // giving comprehension time.
       timeout = timeout * 2;
     }
 
     setTimeout(function(){
       m.fadeOut('fast', function() {
         $(this).remove();
-        complete(); /* Show next message in queue. */
+        complete(); // Show next message in queue.
       });
     }, timeout);
   };
 
   $.notify = function(html, level, sticky) {
-    /* Prevent flooding; no more than 2 pending messages. We start at zero as
-       this is called before the first item is queued. */
+    // Prevent flooding; no more than 2 pending messages. We start at
+    // zero as this is called before the first item is queued.
     if (queue.queue().length >= 2) {
       return;
     }
-    /* Currently only one message at the time. Allowing showing multiple
-      message here will might need a more sophisticated method of managment. */
+    // Currently only one message at the time. Allowing showing multiple
+    // message here will might need a more sophisticated method of managment.
     queue.queue(function(next) {
       render(html, level, sticky || false, next);
     });
