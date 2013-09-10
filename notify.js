@@ -35,7 +35,7 @@
       return;
     }
 
-    if ($(html).text().length >= 25) {
+    if ($($.parseHTML(html)).text().length >= 25) {
       // Double the timeout for complex messages,
       // giving comprehension time.
       timeout = timeout * 2;
