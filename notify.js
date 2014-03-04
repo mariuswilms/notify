@@ -35,11 +35,9 @@
       return;
     }
 
-    if ($($.parseHTML(html)).text().length >= 25) {
-      // Double the timeout for complex messages,
-      // giving comprehension time.
-      timeout = timeout * 2;
-    }
+    // Multiply the timeout for complex messages,
+    // giving comprehension time. Give 1s per 30chars over the first 25 chars.
+    timeout += 1000 * (($($.parseHTML(html)).text().length - 25) / 30);
 
     setTimeout(function(){
       m.fadeOut('fast', function() {

@@ -25,7 +25,8 @@ a message each time you call notify.
 
 Messages are generated like shown below. Each message automatically disappears
 after 2100ms by default . For messages containing longer text the timeout is
-doubled to give time for comprehension. You can also make a message "sticky" to
+multiplied to giving an extra time (of 1 seconds per 30 characters over the
+first 25 characters) for comprehension. You can also make a message "sticky" to
 make it stay until you click it by providing a 3rd parameter.
 
 ...
