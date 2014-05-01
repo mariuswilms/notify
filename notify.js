@@ -13,7 +13,7 @@
     // Selector of the container in which messages will be added.
     container: '#messages',
 
-    // HTML Element used for messages.
+    // Element used for a message.
     element: '<div class="message hide"></div>',
 
     // Number of maximum pending messages, all other messages
@@ -27,25 +27,33 @@
   // Our own personal queue.
   var queue = $({});
 
-  // Show/hide function used when a message should dis-/appear; must return
-  // a promise which should be resolved when i.e. the show animation
-  // finished.
-  var toggle = function($m) {
-    var dfr = new $.Deferred();
-
-    // Determines if CSS transitions should/can be used.
-    if (typeof Modernizr !== 'undefined' && Modernizr.csstransitions) {
-      $m.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', dfr.resolve);
-    } else {
-      dfr.resolve();
+  // Main plugin function. Allows for adding a notification and
+  // configuring the plugin globally.
+  $.notify = function(html, options) {
+    if (typeof html === 'object') {
+      config = $.extend(html, config);
+      return;
     }
-    $m.toggleClass('hide');
+    options = $.extend(options || {}, {
+      level: null,
+      sticky: false,
+      timeout: config.timeout
+    });
 
-    return dfr.promise();
+    // Prevent flooding; no more than 2 pending messages. We start at
+    // zero as this is called before the first item is queued.
+    if (queue.queue().length >= config.maxPending) {
+      return;
+    }
+    // Currently only one message at the time. Allowing showing multiple
+    // message here will might need a more sophisticated method of managment.
+    queue.queue(function(next) {
+      render(html, options, next);
+    });
   };
 
   // Renders a message and calls complete callback after doing that.
-  var render = function(html, options, complete) {
+  function render(html, options, complete) {
     var $m = $(config.element).html(html);
 
     if (options.level) {
@@ -83,32 +91,23 @@
         });
       }, options.timeout);
     });
-  };
+  }
 
-  // Main plugin function. Allows for adding a notification and
-  // configuring the plugin globally.
-  $.notify = function(html, options) {
-    // Allow setting global configuration for this plugin.
-    if (typeof html === 'object') {
-      config = $.extend(html, config);
-      return;
-    }
-    options = $.extend(options || {}, {
-      level: null,
-      sticky: false,
-      timeout: config.timeout
-    });
+  // Show/hide function used when a message should dis-/appear; must return
+  // a promise which should be resolved when i.e. the show animation
+  // finished.
+  function toggle($m) {
+    var dfr = new $.Deferred();
 
-    // Prevent flooding; no more than 2 pending messages. We start at
-    // zero as this is called before the first item is queued.
-    if (queue.queue().length >= config.maxPending) {
-      return;
+    // Determines if CSS transitions should/can be used.
+    if (typeof Modernizr !== 'undefined' && Modernizr.csstransitions) {
+      $m.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', dfr.resolve);
+    } else {
+      dfr.resolve();
     }
-    // Currently only one message at the time. Allowing showing multiple
-    // message here will might need a more sophisticated method of managment.
-    queue.queue(function(next) {
-      render(html, options, next);
-    });
-  };
+    $m.toggleClass('hide');
+
+    return dfr.promise();
+  }
 
 })(jQuery);
