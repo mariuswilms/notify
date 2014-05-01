@@ -79,7 +79,11 @@
 
     // Multiply the timeout for complex messages, giving comprehension time.
     // Give 1s per 30 chars over the first 25 chars.
-    options.timeout = 1000 * (($($.parseHTML(html)).text().length - 25) / 30);
+    options.timeout += 1000 * (($($.parseHTML(html)).text().length - 25) / 30);
+
+    // Workaround to enable CSS transitions on dynamically inserted elements.
+    // Reading random property to force recalculating styles.
+    $m.css('top');
 
     config.show($m).done(function() {
       setTimeout(function() {
