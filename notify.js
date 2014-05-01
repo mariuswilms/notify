@@ -8,7 +8,6 @@
  */
 (function($) {
   var queue = $({});
-  var queuedTexts = [];
 
   var render = function(html, options, complete) {
     var m = $('<div>').attr('class', 'message');
