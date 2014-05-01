@@ -10,13 +10,13 @@
   var queue = $({});
   var queuedTexts = [];
 
-  var render = function(html, level, sticky, timeout, complete) {
+  var render = function(html, options, complete) {
     var m = $('<div>').attr('class', 'message');
 
-    if (level) {
+    if (options.level) {
       m.addClass(level);
     }
-    if (sticky) {
+    if (options.sticky) {
       m.addClass('sticky');
     }
     m.hide();
@@ -25,7 +25,7 @@
     $('#messages').append(m);
     m.show();
 
-    if (sticky) {
+    if (options.sticky) {
       m.click(function(ev) {
         $(this).remove();
         complete();
@@ -37,17 +37,24 @@
 
     // Multiply the timeout for complex messages,
     // giving comprehension time. Give 1s per 30chars over the first 25 chars.
-    timeout += 1000 * (($($.parseHTML(html)).text().length - 25) / 30);
+    options.timeout = 1000 * (($($.parseHTML(html)).text().length - 25) / 30);
 
-    setTimeout(function(){
+    setTimeout(function() {
+      $container.trigger('notify:remove', [m]);
       m.fadeOut('fast', function() {
         $(this).remove();
         complete(); // Show next message in queue.
       });
-    }, timeout);
+    }, options.timeout);
   };
 
-  $.notify = function(html, level, sticky, timeout) {
+  $.notify = function(html, options) {
+    options = $.extend(options || {}, {
+      level: null,
+      sticky: false,
+      timeout: 2100
+    });
+
     // Prevent flooding; no more than 2 pending messages. We start at
     // zero as this is called before the first item is queued.
     if (queue.queue().length >= 2) {
@@ -56,7 +63,7 @@
     // Currently only one message at the time. Allowing showing multiple
     // message here will might need a more sophisticated method of managment.
     queue.queue(function(next) {
-      render(html, level, sticky || false, timeout || 2100, next);
+      render(html, options, next);
     });
   };
 })(jQuery);
