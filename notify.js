@@ -12,6 +12,8 @@
   var config = {
     // Selector of the container in which messages will be added.
     container: '#messages',
+
+    // HTML Element used for messages.
     element: '<div class="message hide"></div>',
 
     // Number of maximum pending messages, all other messages
@@ -19,41 +21,28 @@
     maxPending: 2,
 
     // Base timeout until a message will be removed after it's shown.
-    timeout: 2100,
-
-    // Show function used when a message should appear; must return a
-    // promise which should be resolved when i.e. the show animation
-    // finished.
-    show: function($m) {
-      var dfr = new $.Deferred();
-
-      if (typeof Modernizr !== 'undefined' && Modernizr.csstransitions) {
-        $m.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', dfr.resolve);
-        $m.removeClass('hide');
-      } else {
-        $m.fadeIn(dfr.resolve);
-      }
-      return dfr.promise();
-    },
-
-    // Hide function used when a message should disappear; must return
-    // a promise which should be resolved when i.e. the hide animation
-    // finished.
-    hide: function($m) {
-      var dfr = new $.Deferred();
-
-      if (typeof Modernizr !== 'undefined' && Modernizr.csstransitions) {
-        $m.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', dfr.resolve);
-        $m.addClass('hide');
-      } else {
-        $m.fadeOut(dfr.resolve);
-      }
-      return dfr.promise();
-    }
+    timeout: 2100
   };
 
   // Our own personal queue.
   var queue = $({});
+
+  // Show/hide function used when a message should dis-/appear; must return
+  // a promise which should be resolved when i.e. the show animation
+  // finished.
+  var toggle = function($m) {
+    var dfr = new $.Deferred();
+
+    // Determines if CSS transitions should/can be used.
+    if (typeof Modernizr !== 'undefined' && Modernizr.csstransitions) {
+      $m.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', dfr.resolve);
+    } else {
+      dfr.resolve();
+    }
+    $m.toggleClass('hide');
+
+    return dfr.promise();
+  };
 
   // Renders a message and calls complete callback after doing that.
   var render = function(html, options, complete) {
@@ -69,7 +58,7 @@
 
     if (options.sticky) {
       $m.click(function(ev) {
-        config.hide(m).done(function() {
+        toggle($m).done(function() {
           $m.remove();
           complete();
         });
@@ -82,12 +71,13 @@
     options.timeout += 1000 * (($($.parseHTML(html)).text().length - 25) / 30);
 
     // Workaround to enable CSS transitions on dynamically inserted elements.
-    // Reading random property to force recalculating styles.
+    // Reading random property to force recalculating styles. Has no effect
+    // when transitions aren't used.
     $m.css('top');
 
-    config.show($m).done(function() {
+    toggle($m).done(function() {
       setTimeout(function() {
-        config.hide($m).done(function() {
+        toggle($m).done(function() {
           $m.remove();
           complete(); // Show next message in queue.
         });
