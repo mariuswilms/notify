@@ -24,16 +24,17 @@ a message each time you call notify.
 ...
 
 Messages are generated like shown below. Each message automatically disappears
-after 2100ms by default . For messages containing longer text the timeout is
+after 2100ms by default. For messages containing longer text the timeout is
 multiplied to giving an extra time (of 1 seconds per 30 characters over the
-first 25 characters) for comprehension. You can also make a message "sticky" to
-make it stay until you click it by providing a 3rd parameter.
+first 25 characters) for comprehension. The base timeout can be configured
+globally or on a per message basis. You can also make a message "sticky"
+causing it to "stay" until you click on it.
 
 ...
 $.notify("Hello!");
-$.notify("Hello!", "success"); // With optional level.
-$.notify("Hello!", "success", true); // Makes the message sticky.
-$.notify("Hello!", "success", false, 4000); // Control the minimum timeout in ms.
+$.notify("Hello!", {level: "success"}); // With optional level.
+$.notify("Hello!", {sticky: true});     // Makes the message sticky.
+$.notify("Hello!", {timeout: 4000});    // Control the minimum timeout.
 ...
 
 Levels are applied as classes to the message. This can be used to mark a
@@ -48,12 +49,25 @@ The complete markup with an active message may look like in the example below.
 </div>
 ...
 
+To set global configuration options use the following syntax. The options
+are described in the code of the plugin.
+
+...
+$.notify({
+	container: '#messages',
+	maxPending: 2,
+	timeout: 1234,
+	// ...
+});
+...
+
 Queuing
 -------
 Currently just one message at a time is being shown. Only 2 messages are
-actually queued to prevent flooding the notification system. This may lead to
-messages being discarded - which is bad. On the other hand it's freeing you
-from implementing your own buffering mechanisms - which is good.
+by default actually queued to prevent flooding the notification system.
+This may lead to messages being discarded - which is bad. On the other hand
+it's freeing you from implementing your own buffering mechanisms - which is
+good.
 
 Copyright & License
 -------------------
@@ -74,4 +88,5 @@ time when a significant point of development has been reached.
 Snapshots are schemed as follows:
 [current year, two digit].[index, zero based]
 
-Requires jquery >= 1.8.1.
+Requires jQuery >= 1.8.1.
+Optionally uses Modernizr to check for the availability of CSS transitions.
