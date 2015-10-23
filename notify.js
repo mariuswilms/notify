@@ -102,7 +102,8 @@
 
     // Multiply the timeout for complex messages, giving comprehension time.
     // Give 1s per 30 chars over the first 25 chars.
-   var timeout = options.timeout + 1000 * (($($.parseHTML(html)).text().length - 25) / 30);
+    var timeout = options.timeout;
+    timeout += Math.max(0, 1000 * (($($.parseHTML(html)).text().length - 25) / 30));
 
     // Workaround to enable CSS transitions on dynamically inserted elements.
     // Reading random property to force recalculating styles.
