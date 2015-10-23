@@ -24,26 +24,26 @@
     maxPending: 2,
 
     // Base timeout until a message will be removed after it's shown.
-    timeout: 2100,
+    timeout: 1100,
 
     // Show function used when a message should appear; must return a
     // promise which should be resolved when i.e. the show animation
     // finished.
     show: function($m, $c) {
       var dfr = new $.Deferred();
-
       if (typeof Modernizr !== 'undefined' && Modernizr.csstransitions) {
-        if ($m.css('transition-duration')) {
+        if ($m.css('transition-duration') !== '0s') {
           $m.one(TRANSITION_EV, dfr.resolve);
-        } else if ($c.css('transition-duration')) {
+        } else if ($c.css('transition-duration') !== '0s') {
           $c.one(TRANSITION_EV, dfr.resolve);
         } else {
           dfr.resolve();
         }
-        $m.removeClass('invisible');
       } else {
-        $m.fadeIn(dfr.resolve);
+        dfr.resolve();
       }
+      $m.removeClass('invisible');
+
       return dfr.promise();
     },
 
@@ -54,17 +54,18 @@
       var dfr = new $.Deferred();
 
       if (typeof Modernizr !== 'undefined' && Modernizr.csstransitions) {
-        if ($m.css('transition-duration')) {
+        if ($m.css('transition-duration') !== '0s') {
           $m.one(TRANSITION_EV, dfr.resolve);
-        } else if ($c.css('transition-duration')) {
+        } else if ($c.css('transition-duration') !== '0s') {
           $c.one(TRANSITION_EV, dfr.resolve);
         } else {
           dfr.resolve();
         }
-        $m.addClass('invisible');
       } else {
-        $m.fadeOut(dfr.resolve);
+        dfr.resolve();
       }
+      $m.addClass('invisible');
+
       return dfr.promise();
     }
   };
