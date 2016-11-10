@@ -32,15 +32,10 @@
     show: function($m, $c) {
       var dfr = new $.Deferred();
 
-      // If modernizr was not built with csstransition it is undefined.
-      if (typeof Modernizr !== 'undefined' && Modernizr.csstransitions === true) {
-        if ($m.css('transition-duration') !== '0s') {
-          $m.one(TRANSITION_EV, dfr.resolve);
-        } else if ($c.css('transition-duration') !== '0s') {
-          $c.one(TRANSITION_EV, dfr.resolve);
-        } else {
-          dfr.resolve();
-        }
+      if ($m.css('transition-duration') !== '0s') {
+        $m.one(TRANSITION_EV, dfr.resolve);
+      } else if ($c.css('transition-duration') !== '0s') {
+        $c.one(TRANSITION_EV, dfr.resolve);
       } else {
         dfr.resolve();
       }
@@ -55,15 +50,10 @@
     hide: function($m, $c) {
       var dfr = new $.Deferred();
 
-      // If modernizr was not built with csstransition it is undefined.
-      if (typeof Modernizr !== 'undefined' && Modernizr.csstransitions === true) {
-        if ($m.css('transition-duration') !== '0s') {
-          $m.one(TRANSITION_EV, dfr.resolve);
-        } else if ($c.css('transition-duration') !== '0s') {
-          $c.one(TRANSITION_EV, dfr.resolve);
-        } else {
-          dfr.resolve();
-        }
+      if ($m.css('transition-duration') !== '0s') {
+        $m.one(TRANSITION_EV, dfr.resolve);
+      } else if ($c.css('transition-duration') !== '0s') {
+        $c.one(TRANSITION_EV, dfr.resolve);
       } else {
         dfr.resolve();
       }

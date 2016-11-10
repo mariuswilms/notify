@@ -89,4 +89,3 @@ Snapshots are schemed as follows:
 [current year, two digit].[index, zero based]
 
 Requires jQuery >= 1.8.1.
-Optionally uses Modernizr to check for the availability of CSS transitions.
