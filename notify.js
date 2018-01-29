@@ -13,11 +13,12 @@
 
   // Global configuration.
   var config = {
-    // Selector of the container in which messages will be added.
-    container: '#messages',
+    // The class name/s of the message container.
+    containerClass: 'messages',
 
-    // The element definition of a message.
-    element: '<div class="message invisible"></div>',
+    // The class name/s of a message. An "invisible" class will be removed then re-added
+    // when rendering the message.
+    elementClass: 'message',
 
     // Number of maximum pending messages, all other messages
     // will be discarded to prevent flooding.
@@ -68,8 +69,18 @@
 
   // Renders a message and calls complete callback after doing that.
   var render = function(html, options, complete) {
-    var $m = $(config.element).html(html);
-    var $c = $(config.container);
+    var $c = $('#notify');
+
+    if (!$c.length) {
+      $c = $('<div id="notify" />');
+      $c.addClass(config.containerClass);
+      $('body').append($c);
+    }
+
+    var $m = $('<div />');
+    $m.addClass(config.elementClass);
+    $m.addClass('invisible');
+    $m.html(html);
 
     if (options.level) {
       $m.addClass(options.level);
