@@ -8,9 +8,6 @@
  */
 (function($) {
 
-  // All possible transition event names.
-  var TRANSITION_EV = 'transitionend mozTransitionEnd webkitTransitionEnd oTransitionEnd MSTransitionEnd';
-
   // Global configuration.
   var config = {
     // The class name/s of the message container.
@@ -34,9 +31,9 @@
       var dfr = new $.Deferred();
 
       if ($m.css('transition-duration') !== '0s') {
-        $m.one(TRANSITION_EV, dfr.resolve);
+        $m.one('transitionend', dfr.resolve);
       } else if ($c.css('transition-duration') !== '0s') {
-        $c.one(TRANSITION_EV, dfr.resolve);
+        $c.one('transitionend', dfr.resolve);
       } else {
         dfr.resolve();
       }
@@ -52,9 +49,9 @@
       var dfr = new $.Deferred();
 
       if ($m.css('transition-duration') !== '0s') {
-        $m.one(TRANSITION_EV, dfr.resolve);
+        $m.one('transitionend', dfr.resolve);
       } else if ($c.css('transition-duration') !== '0s') {
-        $c.one(TRANSITION_EV, dfr.resolve);
+        $c.one('transitionend', dfr.resolve);
       } else {
         dfr.resolve();
       }
