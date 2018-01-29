@@ -1,7 +1,7 @@
 /*!
  * jQuery Notify Plugin
  *
- * Copyright (c) 2012-2014 David Persson
+ * Copyright (c) 2012 David Persson
  *
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
