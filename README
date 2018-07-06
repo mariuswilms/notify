@@ -1,40 +1,27 @@
 
 notify
--- A jQuery Notification Plugin
+-- Notifications
 
 Synopsis
 --------
 A super simple no configuration notification system.
 
-Features
---------
-- No configuration required
-- Message-queuing
-- Message-flooding prevention
-- "Smart" timeout
-
 Usage
 -----
-As the first and only preparation step you'll have to add a container div to
-your document. Once the container is in place the plugin will start appending
-a message each time you call notify.
-
-...
-<div id="messages"></div>
-...
-
 Messages are generated like shown below. Each message automatically disappears
-after 2100ms by default. For messages containing longer text the timeout is
+after 1100ms by default. For messages containing longer text the timeout is
 multiplied to giving an extra time (of 1 seconds per 30 characters over the
 first 25 characters) for comprehension. The base timeout can be configured
 globally or on a per message basis. You can also make a message "sticky"
 causing it to "stay" until you click on it.
 
 ...
-$.notify("Hello!");
-$.notify("Hello!", {level: "success"}); // With optional level.
-$.notify("Hello!", {sticky: true});     // Makes the message sticky.
-$.notify("Hello!", {timeout: 4000});    // Control the minimum timeout.
+let notify = new Notifiy(document.body);
+
+notify.queueMessage("Hello!");
+notify.queueMessage("Hello!", {level: "success"}); // With optional level.
+notify.queueMessage("Hello!", {sticky: true});     // Makes the message sticky.
+notify.queueMessage("Hello!", {timeout: 4000});    // Control the minimum timeout.
 ...
 
 Levels are applied as classes to the message. This can be used to mark a
@@ -44,48 +31,19 @@ message as success, error, etc and styled accordingly. Sticky messages
 The complete markup with an active message may look like in the example below.
 
 ...
-<div id="messages">
-	<div class="message success">Hello!</div>
+<div class="notify">
+  <div class=notify__messages">
+    <div class=notify__message success">Hello!</div>
+  </div>
 </div>
-...
-
-To set global configuration options use the following syntax. The options
-are described in the code of the plugin.
-
-...
-$.notify({
-	container: '#messages',
-	maxPending: 2,
-	timeout: 1234,
-	// ...
-});
 ...
 
 Queuing
 -------
-Currently just one message at a time is being shown. Only 2 messages are
-by default actually queued to prevent flooding the notification system.
-This may lead to messages being discarded - which is bad. On the other hand
-it's freeing you from implementing your own buffering mechanisms - which is
-good.
+Currently just one message at a time is being shown.
 
 Copyright & License
 -------------------
-Notify, is Copyright (c) 2012-2014 David Persson if not otherwise
+Notify, is Copyright (c) 2012 Marius Wilms if not otherwise
 stated. The code is distributed under the terms of the MIT License.
 For the full license text see the LICENSE file.
-
-Versions & Requirements
------------------------
-Notify follows the rolling release development model. Code in the master
-branch should always considered to be stable. While code in the dev branch
-should be considered unstable or sometimes even expiremental.
-
-There are no versions as in the standard release development model but
-snapshots. The master branch may be tagged ("snapshotted") at any point in
-time when a significant point of development has been reached.
-
-Snapshots are schemed as follows:
-[current year, two digit].[index, zero based]
-
-Requires jQuery >= 1.8.1.
